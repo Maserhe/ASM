@@ -2,9 +2,9 @@
 ;【例5-2】计算  
 ;        X+5       （10＜X≤20）
 ;        
-;           X+10      （20＜X＜30）
+;         X+10      （20＜X＜30）
         
-;            X          其它
+;          X          其它
 
 ;其中x、y均为带符号字节数
  
@@ -19,7 +19,7 @@ DATA    ENDS
 CODE    SEGMENT   
          	ASSUME     CS:CODE , DS: DATA
 START:
-    MOV  AX , DSEG
+    MOV  AX , DATA
     MOV  DS , AX
     MOV  AL , X		    ;取X的值
     CMP  AL ,10		    ;AL的值与10比较，影响标志位
@@ -31,9 +31,9 @@ START:
     ADD   AL ,10		;AL← (AL+10)
     JMP    L2
     L1:     ADD   AL , 5		;AL←（AL+5）
-    L2:    MOV   Y  ,A L		;保存结果
+    L2:     MOV    Y  , AL		;保存结果
     MOV   AH ,4CH
     INT  	21H
-CSEG   ENDS
+CODE   ENDS
 END  START
 
