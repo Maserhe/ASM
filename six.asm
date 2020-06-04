@@ -48,7 +48,7 @@ showEnter:;             显示回车换行
     
 show:;                  显示结果
     POP DX;
-    CMP DX, 9;          大于9的数转换成ASCII码时要加37H
+    CMP DX, 9;          大于9的数转换成ASCII码时要加37H 即加 
     JBE abcdef;         小于等于 则跳到下面 加30H
     ADD DX, 7H;         abcdef先加7H  下面再加 30H
 
