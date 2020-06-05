@@ -1,14 +1,14 @@
-ASSUME CS:codeseg, SS:stackseg
-stackseg SEGMENT
-DB 16 DUP(?);
-stackseg ENDS
-codeseg SEGMENT
+STA SEGMENT  STACK
+    DB 16 DUP(0);
+STA ENDS
+CODE SEGMENT
+    ASSUME CS:CODE, SS:STA
 start:
-    MOV AX, stackseg;
+    MOV AX, STA;
     MOV SS, AX;
     MOV SP, 16;
-    AND BX, 0;
-    AND DX, 0;
+    AND BX, 0;          其中 BL 用来临时 保存 输入 AL 由ASCALL 转换成 BL 
+    AND DX, 0;          DX存放已经 按权相加 后的结果
     MOV CX, 5;
 
 read:
@@ -20,7 +20,7 @@ read:
     MOV BL, AL;
     AND BL, 0FH;        将输入的ASCII码转为二进制 即减去48，或者写SUB BL, 30H
     MOV AX, DX;         DX存已经输入的二进制数和，不包含这次输入
-    MOV DX, 0AH;
+    MOV DX, 0AH;        按权乘 10 
     MUL DX;             将结果乘以10再加上输入的数
     ADD AX, BX;
     MOV DX, AX;         将新结果仍然放到DX中
@@ -56,7 +56,7 @@ abcdef:
     ADD DX, 30H;        如果不是跳转过来的一共加了37H ，否则加30H
     MOV AH, 02H;        
     INT 21H;
-    CMP SP, 16;     
+    CMP SP, 16;         对比栈底，查看是否到底
     JZ exit;
     LOOP show;
 
@@ -64,5 +64,5 @@ exit:;                  结束
     MOV AX, 4C00H;
     INT 21H;
 
-codeseg ENDS
+CODE ENDS
 END start
